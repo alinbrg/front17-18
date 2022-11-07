@@ -2,8 +2,17 @@
 // (ელემენტის წაშლისთვის ვიყენებთ remove() მეთოდს იმ ელემენტზე რომლის წაშლაც გვინდა)
 
 const deleteBtn = document.querySelector("#delete-btn");
-
+deleteBtn.addEventListener("click", (e) => {
+	deleteBtn.remove();
+});
 // 2. ჯავასკრიპტით შევქმნათ img tag რომელსაც src ად მივანიჭებთ ამ:  https://picsum.photos/id/1/200/300  სურათის ლინკს და ეს შექმნილი img ჩავსვათ body ში (ჯავასკრიპტით).
+// const myImg = document.createElement("img");
+// myImg.setAttribute("src", "https://picsum.photos/id/1/200/300");
+// myImg.alt = "image";
+
+// const body = document.querySelector("body");
+
+// body.append(myImg);
 
 // 3. html-ში შექმენით <div id="characters-list"></div>
 
@@ -44,24 +53,78 @@ const characters = [
 ];
 const charList = document.querySelector("#characters-list");
 
-{
-	/* <div class="char-card">
+// console.log(charList);
+
+/* <div class="char-card">
     <div class="char-info">
       <h4 class="char-name">
-        hermoine
+        
       </h4>
       <h5 class="house">
-        house: griffindor
+        house: 
       </h5>
-      <h6 class="actor-name">Emma watson</h6>
+      <h6 class="actor-name"></h6>
       <div class="btns">
         <button class="show-info">show info</button>
         <button class="delete-card">delete card</button>
       </div>
     </div>
-    <img src="..." alt="emma watson" />
+    <img src="..." alt="" />
   </div> */
+
+function renderCards() {
+	const htmlString = characters
+		.map((char) => {
+			return `
+				<div class="char-card">
+					<div class="char-info">
+						<h4 class="char-name">
+							${char.first_name}  ${char.last_name}
+						</h4>
+						<h5 class="house">
+							house: ${char.house}
+						</h5>
+						<h6 class="actor-name">${char.actor}</h6>
+						<div class="btns">
+							<button class="show-info">show info</button>
+							<button class="delete-card">delete card</button>
+						</div>
+					</div>
+					<img src="${char.image}" alt="${char.actor}" />
+				</div>
+		`;
+		})
+		.join("");
+
+	// console.log(htmlString);
+
+	charList.innerHTML = htmlString;
+
+	const deleteBtns = document.querySelectorAll(".delete-card");
+	const infoBtns = document.querySelectorAll(".show-info");
+
+	deleteBtns.forEach((btn) => {
+		btn.addEventListener("click", () => {
+			// console.log(btn, btn.closest(".char-card"));
+			// btn.parentElement.parentElement.parentElement.remove()
+			btn.closest(".char-card").remove();
+		});
+	});
+
+	infoBtns.forEach((btn) => {
+		btn.addEventListener("click", (e) => {
+			// console.log(btn);
+
+			btn.parentElement.parentElement
+				.querySelector(".actor-name")
+				.classList.toggle("active");
+		});
+	});
 }
+
+renderCards();
+
+// console.log('')
 
 // 5.  (optional) #4 დავალებაში შექმნილ character card - ზე დავამატოთ ღილაკები (წაშლა და ინფო -  ჯავასკრიპტიდან), წაშლა ღილაკზე დაჭერით წავშალოთ შესაბამისი  character card-ი, ინფო ღილაკზე დაჭერის შედეგად ღილაკების ქვემოთ გამოვაჩინოთ მსახიობის ინფო (actor)
 
